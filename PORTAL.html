@@ -13,8 +13,17 @@
 	<link rel="stylesheet" type="text/css" href=".includes/css/bootstrap-dialog.min.css">
 	<link rel="stylesheet" type="text/css" href=".includes/css/font-awesome.min.css">
 	<style>
+		.admin { display: none !important; }
 		.error, .required { border-color: #a94442; }
 		.valid { border-color: #3c763d; }
+		.nav-tabs, .nav-pills { margin-bottom: 10px; }
+		.nav-tabs > li, .nav-pills > li {
+			float:none;
+			display:inline-block;
+			*display:inline; /* ie7 fix */
+			zoom:1; /* hasLayout ie7 trigger */
+		}
+		.nav-tabs, .nav-pills { text-align:center; }
 		@media only screen and (max-width: 760px){
 			img.top-logo { width: 77%; }
 			div.swab_details_filter { display:none; }
@@ -30,214 +39,244 @@
 <body>
 	<div class="container-fluid">
 		<div class="row" style="text-align:center">
-			<img src=".includes/images/aht-logo.png" style="float:left" class="hidden-sm hidden-xs" />
-			<img src=".includes/images/aht-logo-sml.png" style="float:left" class="visible-sm visible-xs" />
+			<!-- <img src=".includes/images/aht-logo.png" style="float:left" class="hidden-md hidden-sm hidden-xs" />
+			<img src=".includes/images/aht-logo-sml.png" style="float:left" class="visible-md visible-sm visible-xs" /> -->
+			<img src=".includes/images/aht-logo-sml.png" style="float:left" />
 			<div class="btn-group-vertical pull-right" role="group" style="margin-top:10px; margin-right:15px">
 				<a href="Instructions.pdf" target="_blank" class="btn btn-default"><i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>&nbsp;<span class="hidden-sm hidden-xs">View </span>Docs</a>
-				<button type="button" class="btn btn-default" id="but_clearall"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;Clear<span class="hidden-sm hidden-xs"> ALL Data</span></button>
+				<button type="button" class="btn btn-default admin" id="but_clearall"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;Clear<span class="hidden-sm hidden-xs"> ALL Data</span></button>
 			</div>
-			<h1 class="hidden-sm hidden-xs" style="line-height: 105px;margin: 0 463px 0 0;">Remote Swab Collection Portal</h1>
+			<!-- <h1 class="hidden-sm hidden-xs" style="line-height: 105px;margin: 0 463px 0 0;">Remote Swab Collection Portal</h1> -->
+			<h1 class="hidden-sm hidden-xs" style="line-height: 105px;margin: 0 100px 0 0;">Remote Swab Collection Portal</h1>
 		</div>
 		<div class="row visible-sm visible-xs" style="text-align:center">
 			<div class="col-sm-12">
 				<h1>Remote Swab Collection Portal</h1>
 			</div>
 		</div>
-		<form class="form-horizontal" id="swab_details_form" method="post" action="test.html">
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<h3 class="panel-title">1. Sample Details</h3>
-						</div>
-						<div class="panel-body">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Next Swab</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" value="" name="swab-id" id="swab-id" readonly/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Report Format</label>
-                                <div class="col-sm-3">
-									<label class="radio-inline"><input type="radio" class="radiorequired" value="Email" name="format" checked="checked"/> Email</label>
-									<label class="radio-inline"><input type="radio" class="radiorequired" value="Post" name="format"/> Post</label>
-									<label class="radio-inline"><input type="radio" class="radiorequired" value="Fax" name="format"/> Fax</label>
-                                </div>
-                                
-                                <label class="col-sm-2 control-label">Vet Verified?</label>
-                                <div class="col-sm-1">
-                                	<input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-size="small" name="vet-verified" id="vet-verified" />
-                                </div>
-                              	<div class="col-sm-3" style="display:none" id="vet-select-div">
-                              		<select id="vet-select" class="form-control" name="vet-select">
-                              			<option value="0">Add another Vet...</option> 
-                              		</select>
-                              	</div>
-                            </div>
-                            <div class="form_group">
-                            	<div class="col-sm-3 control-label">                            		
-                                	<input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-size="small" name="research" id="research" checked="checked" />
-                                </div>
-                            	<div class="col-sm-9">
-                            		<label>The owner gives consent for the use of these samples for ongoing research into animal health and diseases at the Animal Health Trust.</label>
-								</div>
-                            </div>                            
-                            
-						</div>
-					</div>
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<h3 class="panel-title">2. Dog Details</h3>
-						</div>
-						<div class="panel-body">
-							<div class="form-group">
-                              	<label class="col-sm-3 control-label">Breed</label>
-                              	<div class="col-sm-9">
-                              		<select id="breed-select" class="form-control required" name="breed">
-                              			<option value="">Select Breed of your Dog...</option>
-                              			<option value="Afghan Hound">Afghan Hound</option><option value="Akita">Akita</option><option value="American Staffordshire Terrier">American Staffordshire Terrier</option><option value="Australian Cattle Dog">Australian Cattle Dog</option><option value="Australian Shepherd">Australian Shepherd</option><option value="Basset Hound">Basset Hound</option><option value="Beagle">Beagle</option><option value="Bearded Collie">Bearded Collie</option><option value="Bedlington Terrier">Bedlington Terrier</option><option value="Belgian Shepherd Dog">Belgian Shepherd Dog</option><option value="Boerboel">Boerboel</option><option value="Border Collie">Border Collie</option><option value="Border Terrier">Border Terrier</option><option value="Borzoi">Borzoi</option><option value="Boston Terrier">Boston Terrier</option><option value="Briard">Briard</option><option value="Bull Mastiff">Bull Mastiff</option><option value="Bull Terrier">Bull Terrier</option><option value="Bulldog">Bulldog</option><option value="Cavalier King Charles Spaniel">Cavalier King Charles Spaniel</option><option value="Chihuahua">Chihuahua</option><option value="Chinese Crested">Chinese Crested</option><option value="Chow Chow">Chow Chow</option><option value="Crossbreed">Crossbreed</option><option value="Dachshund (Miniature Long Haired)">Dachshund (Miniature Long Haired)</option><option value="Dachshund (Miniature Smooth Haired)">Dachshund (Miniature Smooth Haired)</option><option value="Dachshund (Miniature Wire Haired)">Dachshund (Miniature Wire Haired)</option><option value="Dachshund (Standard Wire Haired)">Dachshund (Standard Wire Haired)</option><option value="Dalmatian">Dalmatian</option><option value="Dobermann">Dobermann</option><option value="Dogue De Bordeaux">Dogue De Bordeaux</option><option value="English Mastiff">English Mastiff</option><option value="English Shepherd">English Shepherd</option><option value="Finnish Lapphund">Finnish Lapphund</option><option value="Fox Terrier (Wire)">Fox Terrier (Wire)</option><option value="French Bulldog">French Bulldog</option><option value="German Shepherd Dog">German Shepherd Dog</option><option value="Giant Schnauzer">Giant Schnauzer</option><option value="Golden Retriever">Golden Retriever</option><option value="Gordon Setter">Gordon Setter</option><option value="Grand Basset Griffon Vendéen">Grand Basset Griffon Vendéen</option><option value="Hungarian Vizsla (Smooth-Haired)">Hungarian Vizsla (Smooth-Haired)</option><option value="Hungarian Wire Haired Vizsla">Hungarian Wire Haired Vizsla</option><option value="Irish Red &amp; White Setter">Irish Red &amp; White Setter</option><option value="Irish Setter">Irish Setter</option><option value="Italian Greyhound">Italian Greyhound</option><option value="Italian Spinone">Italian Spinone</option><option value="Jack Russell Terrier">Jack Russell Terrier</option><option value="Jagdterrier">Jagdterrier</option><option value="Keeshond">Keeshond</option><option value="Lancashire Heeler">Lancashire Heeler</option><option value="Large Münsterländer">Large Münsterländer</option><option value="Leonberger">Leonberger</option><option value="McNab Shepherd">McNab Shepherd</option><option value="Miniature American Shepherd">Miniature American Shepherd</option><option value="Miniature Bull Terrier">Miniature Bull Terrier</option><option value="Miniature Schnauzer">Miniature Schnauzer</option><option value="Nova Scotia Duck Tolling Retriever">Nova Scotia Duck Tolling Retriever</option><option value="Old English Sheepdog">Old English Sheepdog</option><option value="Parson Russell Terrier">Parson Russell Terrier</option><option value="Patterdale Terrier">Patterdale Terrier</option><option value="Petit Basset Griffon Vendéen">Petit Basset Griffon Vendéen</option><option value="Pomeranian">Pomeranian</option><option value="Pug">Pug</option><option value="Rat Terrier">Rat Terrier</option><option value="Retriever (Curly Coated)">Retriever (Curly Coated)</option><option value="Retriever (Labrador)">Retriever (Labrador)</option><option value="Rough Collie">Rough Collie</option><option value="Russian Black Terrier">Russian Black Terrier</option><option value="Saluki">Saluki</option><option value="Schipperke">Schipperke</option><option value="Scottish Deerhound">Scottish Deerhound</option><option value="Sealyham Terrier">Sealyham Terrier</option><option value="Shar Pei">Shar Pei</option><option value="Shetland Sheepdog">Shetland Sheepdog</option><option value="Shih Tzu">Shih Tzu</option><option value="South African Boerbeol">South African Boerbeol</option><option value="Spaniel (American Cocker)">Spaniel (American Cocker)</option><option value="Spaniel (Clumber)">Spaniel (Clumber)</option><option value="Spaniel (Cocker)">Spaniel (Cocker)</option><option value="Spaniel (English Springer)">Spaniel (English Springer)</option><option value="Spaniel (Sussex)">Spaniel (Sussex)</option><option value="Spaniel (Welsh Springer)">Spaniel (Welsh Springer)</option><option value="Spanish Water Dog">Spanish Water Dog</option><option value="St. Bernard">St. Bernard</option><option value="Stabyhoun">Stabyhoun</option><option value="Staffordshire Bull Terrier">Staffordshire Bull Terrier</option><option value="Swedish Lapphund">Swedish Lapphund</option><option value="Tenterfield Terrier">Tenterfield Terrier</option><option value="Tibetan Spaniel">Tibetan Spaniel</option><option value="Tibetan Terrier">Tibetan Terrier</option><option value="Toy Fox Terrier">Toy Fox Terrier</option><option value="Volpino Italiano">Volpino Italiano</option><option value="Weimaraner">Weimaraner</option><option value="Welsh Terrier">Welsh Terrier</option><option value="Whippet">Whippet</option><option value="Yorkshire Terrier">Yorkshire Terrier</option>
-                              		</select>
-                              	</div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Registered Name</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" value="" name="registered-name" id="registered-name"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Registration Number</label>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" value="" name="registration-number" id="registration-number"/>
-                                </div>
-								<label class="col-sm-3 control-label">Pet Name</label>
-								<div class="col-sm-3">
-									<input type="text" class="form-control required" value="" name="pet-name" id="pet-name"/>
-								</div>
-                            </div>
-                            <div class="form-group">
-								<label class="col-sm-3 control-label">Birth Date</label>
-								<div class="col-sm-3">
-									<input type="text" value="" name="birth-date" id="birth-date" class="form-control datepicker-me required num" autocomplete="off" placeholder="dd/mm/yyyy" />
-								</div>
-                                <label class="col-sm-3 control-label">Sex</label>
-                                <div class="col-sm-3">
-                                	<div class="radioerror"></div>
-									<label class="radio-inline">
-										<input type="radio" class="radiorequired" value="Male" name="sex" checked="checked"/> Male
-									</label>
-									<label class="radio-inline">
-										<input type="radio" class="radiorequired" value="Female" name="sex"/> Female
-									</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-								<label class="col-sm-3 control-label">Colour</label>
-								<div class="col-sm-9">
-									<input type="text" class="form-control" value="" name="colour" id="colour"/>
-								</div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Microchip</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" value="" name="microchip" id="microchip"/>
-                                </div>
-                            </div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<h3 class="panel-title">3. Owner Details</h3>
-						</div>
-						<div class="panel-body">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Owner's Name</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control required" value="" name="owner-name" id="owner-name"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Address</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" value="" name="owner-address" id="owner-address"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Postcode</label>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" value="" name="owner-postcode" id="owner-postcode"/>
-                                </div>
-                                <label class="col-sm-2 control-label">Email</label>
-                                <div class="col-sm-4">
-                            		<input type="email" class="form-control required" value="" name="owner-email" id="owner-email"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Phone</label>
-                                <div class="col-sm-3">
-                                    <input type="phone" class="form-control" value="" name="owner-phone" id="owner-phone"/>
-                                </div>
-                                <label class="col-sm-2 control-label">Fax</label>
-                                <div class="col-sm-4">
-                                    <input type="phone" class="form-control" value="" name="owner-fax" id="owner-fax"/>
-                                </div>
-                            </div>
-						</div>
-					</div>
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<h3 class="panel-title">4. Tests Available</h3>
-						</div>
-						<div class="panel-body" id="available_tests">
-							<p>Please first select your dog breed from the dropdown list in DOG DETAILS section to view the list of tests available.</p>
-						</div>
-					</div>
-					
-					<input type="submit" value="Record Details" id="form_submission_but" name="submit" class="btn btn-primary pull-right" disabled="disabled"/>
-			
-				</div>
-			</div>			
-		</form>
-		<div class="row"><div class="col-sm-12"><hr /></div></div>
+		
+		<canvas id="canvasBarcode" style="position:absolute;left:40px;bottom:40px;z-index:-999;" width="120px" height="120px"></canvas>
+		<div style="position:absolute;height:200px;width:200px;left:0px;bottom:0px;z-index:-10;background-color:#FFFFFF">&nbsp;</div>
+		
 		<div class="row">
-			<div class="col-sm-12" style="font-size:0.8em">
-				<table id="swab_details" class="table table-bordered table-hover display" width="100%">
-				        <thead>
-							<tr>
-								<th>Swab#</th>
-								<th>Test</th>
-								<th>Vet Verified?</th>
-								<th>Report?</th>
-								<th>Registered Name</th>
-								<th>Pet Name</th>
-								<th>Reg No.</th>
-								<th>Microchip</th>
-								<th>DOB</th>
-								<th>Breed</th>
-								<th>Colour</th>
-								<th>Sex</th>
-								<th>Owner</th>
-								<th>Email</th>
-								<th>Phone</th>
-								<th>Fax</th>
-								<th>Address</th>
-								<th>Postcode</th>
-								<th>Vet</th>
-								<th>Vet Email</th>
-								<th>Vet Phone</th>
-								<th>Vet Fax</th>
-								<th>Vet Address</th>
-								<th>Vet Postcode</th>
-								<th>Research?</th>
-							</tr>
-						</thead>
-				</table>
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#tab-form" data-toggle="tab">Input Form</a></li>
+					<li><a href="#tab-table" data-toggle="tab">Results Table</a></li>
+				</ul>
+		</div>
+		
+		<div class="tab-content ">
+			<div class="tab-pane active" id="tab-form">		
+				<form class="form-horizontal" id="swab_details_form" method="post" action="test.html">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="panel panel-primary">
+								<div class="panel-heading">
+									<h3 class="panel-title">1. Sample Details</h3>
+								</div>
+								<div class="panel-body">
+		                            <div class="form-group">
+		                                <label class="col-sm-3 control-label">Next Swab</label>
+		                                <div class="col-sm-3">
+		                                    <input type="text" class="form-control" value="" name="swab-id" id="swab-id" readonly/>
+		                                </div>
+		                               	<label class="col-sm-2 control-label">Print Label?</label>
+										<div class="col-sm-1">
+											<input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-size="small" name="print-label" id="print-label" checked="checked" />
+										</div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-3 control-label">Report Format</label>
+		                                <div class="col-sm-3">
+											<label class="radio-inline"><input type="radio" class="radiorequired" value="Email" name="format" checked="checked"/> Email</label>
+											<label class="radio-inline"><input type="radio" class="radiorequired" value="Post" name="format"/> Post</label>
+											<label class="radio-inline"><input type="radio" class="radiorequired" value="Fax" name="format"/> Fax</label>
+		                                </div>
+		                                
+		                                <label class="col-sm-2 control-label">Vet Verified?</label>
+		                                <div class="col-sm-1">
+		                                	<input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-size="small" name="vet-verified" id="vet-verified" />
+		                                </div>
+		                              	<div class="col-sm-3" style="display:none" id="vet-select-div">
+		                              		<select id="vet-select" class="form-control" name="vet-select">
+		                              			<option value="0">Add another Vet...</option> 
+		                              		</select>
+		                              	</div>
+		                            </div>
+		                            <div class="form_group">
+		                            	<div class="col-sm-3 control-label">                            		
+		                                	<input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-size="small" name="research" id="research" checked="checked" />
+		                                </div>
+		                            	<div class="col-sm-9">
+		                            		<label>The owner gives consent for the use of these samples for ongoing research into animal health and diseases at the Animal Health Trust.</label>
+										</div>
+		                            </div>                            
+		                            
+								</div>
+							</div>
+							<div class="panel panel-primary">
+								<div class="panel-heading">
+									<h3 class="panel-title">2. Dog Details</h3>
+								</div>
+								<div class="panel-body">
+									<div class="form-group">
+		                              	<label class="col-sm-3 control-label">Breed</label>
+		                              	<div class="col-sm-9">
+		                              		<select id="breed-select" class="form-control required" name="breed">
+		                              			<option value="">Select Breed of your Dog...</option>
+		                              			<option value="Affenpinscher">Affenpinscher</option><option value="Afghan Hound">Afghan Hound</option><option value="Airedale Terrier">Airedale Terrier</option><option value="Akita">Akita</option><option value="Alaskan Malamute">Alaskan Malamute</option><option value="American Staffordshire Terrier">American Staffordshire Terrier</option><option value="Anatolian Shepherd Dog">Anatolian Shepherd Dog</option><option value="Australian Cattle Dog">Australian Cattle Dog</option><option value="Australian Shepherd">Australian Shepherd</option><option value="Australian Silky Terrier">Australian Silky Terrier</option><option value="Australian Terrier">Australian Terrier</option><option value="Azawakh">Azawakh</option><option value="Barbet">Barbet</option><option value="Basenji">Basenji</option><option value="Basset Bleu De Gascogne">Basset Bleu De Gascogne</option><option value="Basset Fauve De Bretagne">Basset Fauve De Bretagne</option><option value="Basset Griffon Vendeen (Grand)">Basset Griffon Vendeen (Grand)</option><option value="Basset Griffon Vendeen (Petit)">Basset Griffon Vendeen (Petit)</option><option value="Basset Hound">Basset Hound</option><option value="Bavarian Mountain Hound">Bavarian Mountain Hound</option><option value="Beagle">Beagle</option><option value="Bearded Collie">Bearded Collie</option><option value="Beauceron">Beauceron</option><option value="Bedlington Terrier">Bedlington Terrier</option><option value="Belgian Shepherd Dog (Groenendael)">Belgian Shepherd Dog (Groenendael)</option><option value="Belgian Shepherd Dog (Laekenois)">Belgian Shepherd Dog (Laekenois)</option><option value="Belgian Shepherd Dog (Malinois)">Belgian Shepherd Dog (Malinois)</option><option value="Belgian Shepherd Dog (Tervueren)">Belgian Shepherd Dog (Tervueren)</option><option value="Bergamasco">Bergamasco</option><option value="Bernese Mountain Dog">Bernese Mountain Dog</option><option value="Bichon Frise">Bichon Frise</option><option value="Bloodhound">Bloodhound</option><option value="Boerboel">Boerboel</option><option value="Bolognese">Bolognese</option><option value="Border Collie">Border Collie</option><option value="Border Terrier">Border Terrier</option><option value="Borzoi">Borzoi</option><option value="Boston Terrier">Boston Terrier</option><option value="Bouvier Des Flandres">Bouvier Des Flandres</option><option value="Boxer">Boxer</option><option value="Bracco Italiano">Bracco Italiano</option><option value="Braque D'Auvergne">Braque D'Auvergne</option><option value="Briard">Briard</option><option value="Brittany">Brittany</option><option value="Bull Terrier">Bull Terrier</option><option value="Bull Terrier (Miniature)">Bull Terrier (Miniature)</option><option value="Bulldog">Bulldog</option><option value="Bullmastiff">Bullmastiff</option><option value="Cairn Terrier">Cairn Terrier</option><option value="Canaan Dog">Canaan Dog</option><option value="Canadian Eskimo Dog">Canadian Eskimo Dog</option><option value="Catalan Sheepdog">Catalan Sheepdog</option><option value="Cavalier King Charles Spaniel">Cavalier King Charles Spaniel</option><option value="Cesky Terrier">Cesky Terrier</option><option value="Chihuahua (Long Coat)">Chihuahua (Long Coat)</option><option value="Chihuahua (Smooth Coat)">Chihuahua (Smooth Coat)</option><option value="Chinese Crested">Chinese Crested</option><option value="Chow Chow">Chow Chow</option><option value="Cirneco Dell'Etna">Cirneco Dell'Etna</option><option value="Collie (Rough)">Collie (Rough)</option><option value="Collie (Smooth)">Collie (Smooth)</option><option value="Coton De Tulear">Coton De Tulear</option><option value="Crossbreed">Crossbreed</option><option value="Dachshund (Long Haired)">Dachshund (Long Haired)</option><option value="Dachshund (Miniature Long Haired)">Dachshund (Miniature Long Haired)</option><option value="Dachshund (Miniature Smooth Haired)">Dachshund (Miniature Smooth Haired)</option><option value="Dachshund (Miniature Wire Haired)">Dachshund (Miniature Wire Haired)</option><option value="Dachshund (Smooth Haired)">Dachshund (Smooth Haired)</option><option value="Dachshund (Wire Haired)">Dachshund (Wire Haired)</option><option value="Dalmatian">Dalmatian</option><option value="Dandie Dinmont Terrier">Dandie Dinmont Terrier</option><option value="Deerhound">Deerhound</option><option value="Dobermann">Dobermann</option><option value="Dogue de Bordeaux">Dogue de Bordeaux</option><option value="English Setter">English Setter</option><option value="English Shepherd">English Shepherd</option><option value="English Toy Terrier (Black & Tan)">English Toy Terrier (Black & Tan)</option><option value="Entlebucher Mountain Dog">Entlebucher Mountain Dog</option><option value="Estrela Mountain Dog">Estrela Mountain Dog</option><option value="Eurasier">Eurasier</option><option value="Finnish Lapphund">Finnish Lapphund</option><option value="Finnish Spitz">Finnish Spitz</option><option value="Fox Terrier (Smooth)">Fox Terrier (Smooth)</option><option value="Fox Terrier (Wire)">Fox Terrier (Wire)</option><option value="Foxhound">Foxhound</option><option value="French Bulldog">French Bulldog</option><option value="German Longhaired Pointer">German Longhaired Pointer</option><option value="German Pinscher">German Pinscher</option><option value="German Shepherd Dog">German Shepherd Dog</option><option value="German Shorthaired Pointer">German Shorthaired Pointer</option><option value="German Spitz (Klein)">German Spitz (Klein)</option><option value="German Spitz (Mittel)">German Spitz (Mittel)</option><option value="German Wirehaired Pointer">German Wirehaired Pointer</option><option value="Giant Schnauzer">Giant Schnauzer</option><option value="Glen Of Imaal Terrier">Glen Of Imaal Terrier</option><option value="Gordon Setter">Gordon Setter</option><option value="Grand Bleu De Gascogne">Grand Bleu De Gascogne</option><option value="Great Dane">Great Dane</option><option value="Great Swiss Mountain Dog">Great Swiss Mountain Dog</option><option value="Greenland Dog">Greenland Dog</option><option value="Greyhound">Greyhound</option><option value="Griffon Bruxellois">Griffon Bruxellois</option><option value="Griffon Fauve De Bretagne">Griffon Fauve De Bretagne</option><option value="Hamiltonstovare">Hamiltonstovare</option><option value="Havanese">Havanese</option><option value="Hovawart">Hovawart</option><option value="Hungarian Kuvasz">Hungarian Kuvasz</option><option value="Hungarian Puli">Hungarian Puli</option><option value="Hungarian Pumi">Hungarian Pumi</option><option value="Hungarian Vizsla">Hungarian Vizsla</option><option value="Hungarian Wire Haired Vizsla">Hungarian Wire Haired Vizsla</option><option value="Ibizan Hound">Ibizan Hound</option><option value="Irish Red & White Setter">Irish Red & White Setter</option><option value="Irish Setter">Irish Setter</option><option value="Irish Terrier">Irish Terrier</option><option value="Irish Wolfhound">Irish Wolfhound</option><option value="Italian Greyhound">Italian Greyhound</option><option value="Italian Spinone">Italian Spinone</option><option value="Jack Russell Terrier">Jack Russell Terrier</option><option value="Jagdterrier">Jagdterrier</option><option value="Japanese Akita Inu">Japanese Akita Inu</option><option value="Japanese Chin">Japanese Chin</option><option value="Japanese Shiba Inu">Japanese Shiba Inu</option><option value="Japanese Spitz">Japanese Spitz</option><option value="Keeshond">Keeshond</option><option value="Kerry Blue Terrier">Kerry Blue Terrier</option><option value="King Charles Spaniel">King Charles Spaniel</option><option value="Komondor">Komondor</option><option value="Kooikerhondje">Kooikerhondje</option><option value="Korean Jindo">Korean Jindo</option><option value="Korthals Griffon">Korthals Griffon</option><option value="Lagotto Romagnolo">Lagotto Romagnolo</option><option value="Lakeland Terrier">Lakeland Terrier</option><option value="Lancashire Heeler">Lancashire Heeler</option><option value="Large Munsterlander">Large Munsterlander</option><option value="Leonberger">Leonberger</option><option value="Lhasa Apso">Lhasa Apso</option><option value="Lowchen (Little Lion Dog)">Lowchen (Little Lion Dog)</option><option value="Maltese">Maltese</option><option value="Manchester Terrier">Manchester Terrier</option><option value="Maremma Sheepdog">Maremma Sheepdog</option><option value="Mastiff">Mastiff</option><option value="McNab Shepherd">McNab Shepherd</option><option value="Miniature American Shepherd">Miniature American Shepherd</option><option value="Miniature Pinscher">Miniature Pinscher</option><option value="Miniature Schnauzer">Miniature Schnauzer</option><option value="Neapolitan Mastiff">Neapolitan Mastiff</option><option value="Newfoundland">Newfoundland</option><option value="Norfolk Terrier">Norfolk Terrier</option><option value="Norwegian Buhund">Norwegian Buhund</option><option value="Norwegian Elkhound">Norwegian Elkhound</option><option value="Norwich Terrier">Norwich Terrier</option><option value="Old English Sheepdog">Old English Sheepdog</option><option value="Otterhound">Otterhound</option><option value="Papillon">Papillon</option><option value="Parson Russell Terrier">Parson Russell Terrier</option><option value="Patterdale Terrier">Patterdale Terrier</option><option value="Pekingese">Pekingese</option><option value="Pharaoh Hound">Pharaoh Hound</option><option value="Picardy Sheepdog">Picardy Sheepdog</option><option value="Pointer">Pointer</option><option value="Polish Lowland Sheepdog">Polish Lowland Sheepdog</option><option value="Pomeranian">Pomeranian</option><option value="Poodle (Miniature)">Poodle (Miniature)</option><option value="Poodle (Standard)">Poodle (Standard)</option><option value="Poodle (Toy)">Poodle (Toy)</option><option value="Portuguese Podengo">Portuguese Podengo</option><option value="Portuguese Pointer">Portuguese Pointer</option><option value="Portuguese Water Dog">Portuguese Water Dog</option><option value="Pug">Pug</option><option value="Pyrenean Mastiff">Pyrenean Mastiff</option><option value="Pyrenean Mountain Dog">Pyrenean Mountain Dog</option><option value="Pyrenean Sheepdog (Long Haired)">Pyrenean Sheepdog (Long Haired)</option><option value="Rat Terrier">Rat Terrier</option><option value="Retriever (Chesapeake Bay)">Retriever (Chesapeake Bay)</option><option value="Retriever (Curly Coated)">Retriever (Curly Coated)</option><option value="Retriever (Flat Coated)">Retriever (Flat Coated)</option><option value="Retriever (Golden)">Retriever (Golden)</option><option value="Retriever (Labrador)">Retriever (Labrador)</option><option value="Retriever (Nova Scotia Duck Tolling)">Retriever (Nova Scotia Duck Tolling)</option><option value="Rhodesian Ridgeback">Rhodesian Ridgeback</option><option value="Rottweiler">Rottweiler</option><option value="Russian Black Terrier">Russian Black Terrier</option><option value="Saluki">Saluki</option><option value="Samoyed">Samoyed</option><option value="Schipperke">Schipperke</option><option value="Schnauzer">Schnauzer</option><option value="Scottish Terrier">Scottish Terrier</option><option value="Sealyham Terrier">Sealyham Terrier</option><option value="Segugio Italiano">Segugio Italiano</option><option value="Shar Pei">Shar Pei</option><option value="Shetland Sheepdog">Shetland Sheepdog</option><option value="Shih Tzu">Shih Tzu</option><option value="Siberian Husky">Siberian Husky</option><option value="Silken Windhound">Silken Windhound</option><option value="Skye Terrier">Skye Terrier</option><option value="Sloughi">Sloughi</option><option value="Slovakian Rough Haired Pointer">Slovakian Rough Haired Pointer</option><option value="Small Munsterlander">Small Munsterlander</option><option value="Soft Coated Wheaten Terrier">Soft Coated Wheaten Terrier</option><option value="Spaniel (American Cocker)">Spaniel (American Cocker)</option><option value="Spaniel (American Water)">Spaniel (American Water)</option><option value="Spaniel (Clumber)">Spaniel (Clumber)</option><option value="Spaniel (Cocker)">Spaniel (Cocker)</option><option value="Spaniel (English Springer)">Spaniel (English Springer)</option><option value="Spaniel (Field)">Spaniel (Field)</option><option value="Spaniel (Irish Water)">Spaniel (Irish Water)</option><option value="Spaniel (Sussex)">Spaniel (Sussex)</option><option value="Spaniel (Welsh Springer)">Spaniel (Welsh Springer)</option><option value="Spanish Water Dog">Spanish Water Dog</option><option value="St. Bernard">St. Bernard</option><option value="Stabyhoun">Stabyhoun</option><option value="Staffordshire Bull Terrier">Staffordshire Bull Terrier</option><option value="Swedish Lapphund">Swedish Lapphund</option><option value="Swedish Vallhund">Swedish Vallhund</option><option value="Tenterfield Terrier">Tenterfield Terrier</option><option value="Tibetan Mastiff">Tibetan Mastiff</option><option value="Tibetan Spaniel">Tibetan Spaniel</option><option value="Tibetan Terrier">Tibetan Terrier</option><option value="Turkish Kangal Dog">Turkish Kangal Dog</option><option value="Volpino Italiano">Volpino Italiano</option><option value="Weimaraner">Weimaraner</option><option value="Welsh Corgi (Cardigan)">Welsh Corgi (Cardigan)</option><option value="Welsh Corgi (Pembroke)">Welsh Corgi (Pembroke)</option><option value="Welsh Terrier">Welsh Terrier</option><option value="West Highland White Terrier">West Highland White Terrier</option><option value="Whippet">Whippet</option><option value="White Swiss Shepherd Dog">White Swiss Shepherd Dog</option><option value="Xoloitzcuintle (Mex Hairless) Int">Xoloitzcuintle (Mex Hairless) Int</option><option value="Xoloitzcuintle (Mex Hairless) Min">Xoloitzcuintle (Mex Hairless) Min</option><option value="Xoloitzcuintle (Mex Hairless) Std">Xoloitzcuintle (Mex Hairless) Std</option><option value="Yorkshire Terrier">Yorkshire Terrier</option>
+		                              		</select>
+		                              	</div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-3 control-label">Registered Name</label>
+		                                <div class="col-sm-9">
+		                                    <input type="text" class="form-control" value="" name="registered-name" id="registered-name"/>
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-3 control-label">Registration Number</label>
+		                                <div class="col-sm-3">
+		                                    <input type="text" class="form-control" style="text-transform:uppercase" value="" name="registration-number" id="registration-number"/>
+		                                </div>
+										<label class="col-sm-3 control-label">Pet Name</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control required" value="" name="pet-name" id="pet-name"/>
+										</div>
+		                            </div>
+		                            <div class="form-group">
+										<label class="col-sm-3 control-label">Birth Date</label>
+										<div class="col-sm-3">
+											<input type="text" value="" name="birth-date" id="birth-date" class="form-control datepicker-me required num" autocomplete="off" placeholder="dd/mm/yyyy" />
+										</div>
+		                                <label class="col-sm-3 control-label">Sex</label>
+		                                <div class="col-sm-3">
+		                                	<div class="radioerror"></div>
+											<label class="radio-inline">
+												<input type="radio" class="radiorequired" value="Male" name="sex" checked="checked"/> Male
+											</label>
+											<label class="radio-inline">
+												<input type="radio" class="radiorequired" value="Female" name="sex"/> Female
+											</label>
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+										<label class="col-sm-3 control-label">Colour</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" value="" name="colour" id="colour"/>
+										</div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-3 control-label">Microchip</label>
+		                                <div class="col-sm-9">
+		                                    <input type="text" class="form-control" value="" name="microchip" id="microchip"/>
+		                                </div>
+		                            </div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="panel panel-primary">
+								<div class="panel-heading">
+									<h3 class="panel-title">3. Owner Details</h3>
+								</div>
+								<div class="panel-body">
+		                            <div class="form-group">
+		                                <label class="col-sm-3 control-label">Owner's Name</label>
+		                                <div class="col-sm-9">
+		                                    <input type="text" class="form-control required" value="" name="owner-name" id="owner-name"/>
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-3 control-label">Address</label>
+		                                <div class="col-sm-9">
+		                                    <input type="text" class="form-control" value="" name="owner-address" id="owner-address"/>
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-3 control-label">Postcode</label>
+		                                <div class="col-sm-3">
+		                                    <input type="text" class="form-control" value="" name="owner-postcode" id="owner-postcode"/>
+		                                </div>
+		                                <label class="col-sm-2 control-label">Email</label>
+		                                <div class="col-sm-4">
+		                            		<input type="email" class="form-control required" value="" name="owner-email" id="owner-email"/>
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-3 control-label">Phone</label>
+		                                <div class="col-sm-3">
+		                                    <input type="phone" class="form-control" value="" name="owner-phone" id="owner-phone"/>
+		                                </div>
+		                                <label class="col-sm-2 control-label">Fax</label>
+		                                <div class="col-sm-4">
+		                                    <input type="phone" class="form-control" value="" name="owner-fax" id="owner-fax"/>
+		                                </div>
+		                            </div>
+								</div>
+							</div>
+							<div class="panel panel-primary">
+								<div class="panel-heading">
+									<h3 class="panel-title">4. Tests Available</h3>
+								</div>
+								<div class="panel-body" id="available_tests">
+									<p>Please first select your dog breed from the dropdown list in DOG DETAILS section to view the list of tests available.</p>
+								</div>
+							</div>
+							
+							<!-- <div class="col-sm-10">
+								<iframe id="label-preview" class="preview-pane" type="application/pdf" width="500" height="350" frameborder="0" style="position:relative;z-index:999"></iframe>
+							</div> -->
+							
+							<input type="submit" value="Record Details" id="form_submission_but" name="submit" class="btn btn-primary pull-right" disabled="disabled"/>
+					
+						</div>
+					</div>			
+				</form>
+			</div>
+		
+			<!--  <div class="row"><div class="col-sm-12"><hr /></div></div> -->
+		
+			<div class="tab-pane" id="tab-table">	
+				<div class="row">
+					<div class="col-sm-12" style="font-size:0.8em">
+						<table id="swab_details" class="table table-bordered table-hover display" width="100%">
+						        <thead>
+									<tr>
+										<th>Swab#</th>
+										<th>Test</th>
+										<th>Vet Verified?</th>
+										<th>Report?</th>
+										<th>Registered Name</th>
+										<th>Pet Name</th>
+										<th>Reg No.</th>
+										<th>Microchip</th>
+										<th>DOB</th>
+										<th>Breed</th>
+										<th>Colour</th>
+										<th>Sex</th>
+										<th>Owner</th>
+										<th>Email</th>
+										<th>Phone</th>
+										<th>Fax</th>
+										<th>Address</th>
+										<th>Postcode</th>
+										<th>Vet</th>
+										<th>Vet Email</th>
+										<th>Vet Phone</th>
+										<th>Vet Fax</th>
+										<th>Vet Address</th>
+										<th>Vet Postcode</th>
+										<th>Research?</th>
+									</tr>
+								</thead>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
+	
 	<footer>
 	</footer>
 	
@@ -308,6 +347,8 @@
 	<script type="text/javascript" src=".includes/js/bootstrap-dialog.min.js"></script>
 	<script type="text/javascript" src=".includes/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript" src=".includes/js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src=".includes/js/jspdf.min.js"></script>
+	<script type="text/javascript" src=".includes/js/jquery-barcode.min.js"></script>
 	<script type="text/javascript" src=".includes/js/data.js"></script>
 	<script type="text/javascript" src=".includes/js/functions.js"></script>
 	<script>
@@ -330,13 +371,9 @@
 			}
 			var swabID = localStorage.getItem('nextSwab');
 			$('#swab-id').val(swabPrefix + swabID);
-					
+			barcodeData = generateBarcode(swabPrefix + swabID);
+								
 			$("#swab_details_form").validate({
-//					rules: {
-//						'breed_tests': {
-//							required: true
-//						}
-//					},
 					errorPlacement: function(error, element){
 						/* Need to add this function to remove the error default placement */
 					}
@@ -362,6 +399,7 @@
 						$('#owner-address').removeClass("error required");
 						$('#vet-postcode').removeClass("error required");
 						$('#owner-postcode').removeClass("error required");
+						$('#owner-phone').removeClass("error required");
 						$('#vet-fax').removeClass("error required");
 						$('#owner-fax').removeClass("error required");
 					}
@@ -373,13 +411,15 @@
 						$('#vet-address').removeClass("error required");
 						$('#owner-address').removeClass("error required");	
 						$('#vet-postcode').removeClass("error required");
-						$('#owner-postcode').removeClass("error required");					
+						$('#owner-postcode').removeClass("error required");	
+						$('#owner-phone').removeClass("error required");				
 					}
 					else if ($(this).val() == 'Post') {
 						$('#vet-address').addClass("required");
 						$('#owner-address').addClass("required");
 						$('#vet-postcode').addClass("required");
 						$('#owner-postcode').addClass("required");
+						$('#owner-phone').addClass("required");
 						$("#vet-email").removeClass("error required");
 						$("#owner-email").removeClass("error required");
 						$('#vet-fax').removeClass("error required");
@@ -587,9 +627,15 @@
 							swabs.push(swabPrefix + swabID);
 							swabID = Number(swabID) + 1;
 					});
-				//	var formData = $('#swab_details_form').serialize();
-				//	var regName = $('#registered-name').val();
-					//breed=118&registered-name=Dekdays+Lexey+of+Tottlefields&registration-number=&pet-name=&birth-date=&colour=&microchip=
+
+					var mainContact;
+					if ($('#owner-email').val() !== ""){
+						mainContact = $('#owner-email').val();
+					}
+					else if ($('#owner-phone').val() !== ""){
+						mainContact = $('#owner-phone').val();
+					}
+
 					for (var i=0; i<testList.length; i++){
 						var data = [
 								0,
@@ -625,11 +671,14 @@
 					localStorage.setItem('dataSet', JSON.stringify(dataSet));
 					localStorage.setItem('nextSwab', (Number(swabID)));
 					
+					if($('input:checkbox[name="print-label"]:checked').val() === 'on'){
+						createAllLabels(swabs, testList, $('#pet-name').val(), $('#owner-name').val(), mainContact);
+					}
+					
 					$('.valid').removeClass('valid');
 					$('#breed-select').addClass('valid');
 					
 					$('#swab-id').val(swabPrefix + localStorage.getItem('nextSwab'));
-					$("[name=format]").val(["Email"]);
 					$('#registered-name').val("");
 					$('#pet-name').val("");
 					$('#registration-number').val("");
