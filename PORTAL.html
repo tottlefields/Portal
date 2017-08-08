@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text/css" href=".includes/css/bootstrap-dialog.min.css">
 	<link rel="stylesheet" type="text/css" href=".includes/css/font-awesome.min.css">
 	<style>
-		.admin { display: none !important; }
+		/*.admin { display: none !important; }*/
 		.error, .required { border-color: #a94442; }
 		.valid { border-color: #3c763d; }
 		.nav-tabs, .nav-pills { margin-bottom: 10px; }
@@ -55,7 +55,7 @@
 			</div>
 		</div>
 		
-		<canvas id="canvasBarcode" style="position:absolute;left:40px;bottom:40px;z-index:-999;" width="120px" height="120px"></canvas>
+		<canvas id="canvasBarcode" style="position:absolute;left:20px;bottom:40px;z-index:-999;" width="160px" height="80px"></canvas>
 		<div style="position:absolute;height:200px;width:200px;left:0px;bottom:0px;z-index:-10;background-color:#FFFFFF">&nbsp;</div>
 		
 		<div class="row">
@@ -93,13 +93,13 @@
 											<label class="radio-inline"><input type="radio" class="radiorequired" value="Fax" name="format"/> Fax</label>
 		                                </div>
 		                                
-		                                <label class="col-sm-2 control-label">Vet Verified?</label>
+		                                <label class="col-sm-2 control-label">ID Vertification</label>
 		                                <div class="col-sm-1">
 		                                	<input type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No" data-size="small" name="vet-verified" id="vet-verified" />
 		                                </div>
 		                              	<div class="col-sm-3" style="display:none" id="vet-select-div">
 		                              		<select id="vet-select" class="form-control" name="vet-select">
-		                              			<option value="0">Add another Vet...</option> 
+		                              			<option value="0">Add another Verifier...</option> 
 		                              		</select>
 		                              	</div>
 		                            </div>
@@ -206,11 +206,11 @@
 		                            <div class="form-group">
 		                                <label class="col-sm-3 control-label">Phone</label>
 		                                <div class="col-sm-3">
-		                                    <input type="phone" class="form-control" value="" name="owner-phone" id="owner-phone"/>
+		                                    <input type="tel" class="form-control" value="" name="owner-phone" id="owner-phone"/>
 		                                </div>
 		                                <label class="col-sm-2 control-label">Fax</label>
 		                                <div class="col-sm-4">
-		                                    <input type="phone" class="form-control" value="" name="owner-fax" id="owner-fax"/>
+		                                    <input type="tel" class="form-control" value="" name="owner-fax" id="owner-fax"/>
 		                                </div>
 		                            </div>
 								</div>
@@ -224,10 +224,6 @@
 								</div>
 							</div>
 							
-							<!-- <div class="col-sm-10">
-								<iframe id="label-preview" class="preview-pane" type="application/pdf" width="500" height="350" frameborder="0" style="position:relative;z-index:999"></iframe>
-							</div> -->
-							
 							<input type="submit" value="Record Details" id="form_submission_but" name="submit" class="btn btn-primary pull-right" disabled="disabled"/>
 					
 						</div>
@@ -240,7 +236,7 @@
 			<div class="tab-pane" id="tab-table">	
 				<div class="row">
 					<div class="col-sm-12" style="font-size:0.8em">
-						<table id="swab_details" class="table table-bordered table-hover display" width="100%">
+						<table id="swab_details" class="table table-bordered table-hover display" style="width:100%">
 						        <thead>
 									<tr>
 										<th>Swab#</th>
@@ -280,18 +276,18 @@
 	<footer>
 	</footer>
 	
-	<!-- Vet Details Modal -->
+	<!-- Verification Details Modal -->
 	<div class="modal" id="vetModal" tabindex="-1" role="dialog" aria-labelledby="vetModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="vetModalLabel">Vet Details</h4>
+					<h4 class="modal-title" id="vetModalLabel">Verifier Details</h4>
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="vet_details_form">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Vet's Name</label>
+							<label class="col-sm-3 control-label">Verifier Name</label>
 							<div class="col-sm-9">
 								<input type="text" class="form-control" value="" name="vet-name" id="vet-name"/>
 							</div>
@@ -321,18 +317,18 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Phone</label>
 							<div class="col-sm-4">
-								<input type="phone" class="form-control" value="" name="vet-phone" id="vet-phone"/>
+								<input type="tel" class="form-control" value="" name="vet-phone" id="vet-phone"/>
 							</div>
 							<label class="col-sm-2 control-label">Fax</label>
 							<div class="col-sm-3">
-								<input type="phone" class="form-control" value="" name="vet-fax" id="vet-fax"/>
+								<input type="tel" class="form-control" value="" name="vet-fax" id="vet-fax"/>
 							</div>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal" id="but-cancel-vet">Cancel</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" id="but-add-vet">Add Vet</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="but-add-vet">Add Verifier</button>
 				</div>
 			</div>
 		</div>
@@ -348,6 +344,8 @@
 	<script type="text/javascript" src=".includes/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript" src=".includes/js/jquery.validate.min.js"></script>
 	<script type="text/javascript" src=".includes/js/jspdf.min.js"></script>
+	<script type="text/javascript" src=".includes/js/pdfmake.min.js"></script>
+	<script type="text/javascript" src=".includes/js/vfs_fonts.js"></script>
 	<script type="text/javascript" src=".includes/js/jquery-barcode.min.js"></script>
 	<script type="text/javascript" src=".includes/js/data.js"></script>
 	<script type="text/javascript" src=".includes/js/functions.js"></script>
@@ -621,9 +619,11 @@
 					}
 					
 					var testList = [];
+					var testNameList = [];
 					var swabs = [];
 					$('input:checkbox[name="breed_tests"]:checked').each(function() {
 							testList.push($(this).val());
+							testNameList.push($(this).closest("label").text());
 							swabs.push(swabPrefix + swabID);
 							swabID = Number(swabID) + 1;
 					});
@@ -672,7 +672,7 @@
 					localStorage.setItem('nextSwab', (Number(swabID)));
 					
 					if($('input:checkbox[name="print-label"]:checked').val() === 'on'){
-						createAllLabels(swabs, testList, $('#pet-name').val(), $('#owner-name').val(), mainContact);
+						createAllLabels(swabs, testNameList, $('#registered-name').val(), $('#pet-name').val(), $('#microchip').val(), $('#owner-name').val(), mainContact);
 					}
 					
 					$('.valid').removeClass('valid');
