@@ -2,6 +2,7 @@ Affenpinscher
 Afghan Hound
 Airedale Terrier
 Akita
+Alaskan Klee Kai
 Alaskan Malamute
 American Staffordshire Terrier
 Anatolian Shepherd Dog
@@ -22,6 +23,7 @@ Beagle
 Bearded Collie
 Beauceron
 Bedlington Terrier
+Belgian Shepherd Dog
 Belgian Shepherd Dog (Groenendael)
 Belgian Shepherd Dog (Laekenois)
 Belgian Shepherd Dog (Malinois)
@@ -52,6 +54,7 @@ Canadian Eskimo Dog
 Catalan Sheepdog
 Cavalier King Charles Spaniel
 Cesky Terrier
+Chihuahua
 Chihuahua (Long Coat)
 Chihuahua (Smooth Coat)
 Chinese Crested
@@ -59,8 +62,8 @@ Chow Chow
 Cirneco Dell'Etna
 Collie (Rough)
 Collie (Smooth)
+Collie Cross
 Coton De Tulear
-Crossbreed
 Dachshund (Long Haired)
 Dachshund (Miniature Long Haired)
 Dachshund (Miniature Smooth Haired)
@@ -88,6 +91,7 @@ German Longhaired Pointer
 German Pinscher
 German Shepherd Dog
 German Shorthaired Pointer
+German Spitz
 German Spitz (Klein)
 German Spitz (Mittel)
 German Wirehaired Pointer
@@ -135,6 +139,7 @@ Lancashire Heeler
 Large Munsterlander
 Leonberger
 Lhasa Apso
+Longhaired Whippet
 Lowchen (Little Lion Dog)
 Maltese
 Manchester Terrier
@@ -144,9 +149,11 @@ McNab Shepherd
 Miniature American Shepherd
 Miniature Pinscher
 Miniature Schnauzer
+Mixed Breed
 Neapolitan Mastiff
 Newfoundland
 Norfolk Terrier
+Northern Inuit
 Norwegian Buhund
 Norwegian Elkhound
 Norwich Terrier
@@ -181,6 +188,7 @@ Retriever (Nova Scotia Duck Tolling)
 Rhodesian Ridgeback
 Rottweiler
 Russian Black Terrier
+Russian Toy
 Saluki
 Samoyed
 Schipperke
@@ -213,11 +221,14 @@ Stabyhoun
 Staffordshire Bull Terrier
 Swedish Lapphund
 Swedish Vallhund
+Tamaskan Dog
 Tenterfield Terrier
 Tibetan Mastiff
 Tibetan Spaniel
 Tibetan Terrier
+Toy Fox Terrier
 Turkish Kangal Dog
+Utonagans
 Volpino Italiano
 Weimaraner
 Welsh Corgi (Cardigan)
@@ -226,6 +237,7 @@ Welsh Terrier
 West Highland White Terrier
 Whippet
 White Swiss Shepherd Dog
+Wolfalike Dogs
 Xoloitzcuintle (Mex Hairless) Int
 Xoloitzcuintle (Mex Hairless) Min
 Xoloitzcuintle (Mex Hairless) Std

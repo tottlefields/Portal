@@ -72,7 +72,8 @@ function generateBarcode(value) {
 		barHeight : 40,
 		posX : 0,
 		posY : 0,
-		showHRI : 0
+		fontSize : 16,
+		showHRI : 1
 	};
 	$("#canvasBarcode").show().barcode(value, "code39", settings);
 
@@ -213,18 +214,13 @@ function pdfLabel(swabID, testName, dogName, petName, TattooOrChip, ownerName, c
 
 	return [ {
 		table : {
-			widths : [ 'auto', '*', 'auto' ],
+			widths : [ 'auto', '*' ],
 			body : [ [ {
 				image : 'ahtLogo',
 				fit : [ 50, 50 ]
 			}, {
-				width : '*',
-				alignment : 'center',
-				style : 'h1',
-				text : swabID
-			}, {
 				image : barcodeData,
-				width : 100,
+				width : 150,
 				margin : [0,10,0,0]
 			} ] ]
 		},
