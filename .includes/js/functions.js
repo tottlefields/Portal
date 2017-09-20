@@ -60,19 +60,15 @@ function clearCanvas() {
 
 function generateBarcode(value) {
 	clearCanvas();
-	/*
-	 * var settings = { output: 'canvas', bgColor: '#FFFFFF', color: '#000000',
-	 * barWidth: 1, barHeight: 70, posX: 0, posY: 0, showHRI: 0 };
-	 */
 	var settings = {
 		output : 'canvas',
 		bgColor : '#FFFFFF',
 		color : '#000000',
-		barWidth : 2,
-		barHeight : 40,
+		barWidth : 3,
+		barHeight : 50,
 		posX : 0,
 		posY : 0,
-		fontSize : 16,
+		fontSize : 12,
 		showHRI : 1
 	};
 	$("#canvasBarcode").show().barcode(value, "code39", settings);
@@ -80,61 +76,6 @@ function generateBarcode(value) {
 	var canvas = document.getElementById("canvasBarcode");
 	return canvas.toDataURL("image/png");
 }
-
-/*function createAllLabels(swabs, testList, petName, ownerName, mainContact) {
-	var doc = new jsPDF({
-		orientation : 'landscape',
-		unit : 'mm',
-		format : [ 100, 62 ]
-	});
-
-	for (var i = 0; i < testList.length; i++) {
-		console.log(swabs[i]);
-		createLabel(doc, swabs[i], testList[i], petName, ownerName, mainContact);
-		if (i < testList.length - 1)
-			doc.addPage();
-	}
-
-	// doc.autoPrint();
-	doc.output('dataurlnewwindow');
-}
-
-function createLabel(doc, swabID, testCode, dogName, ownerName, contact) {
-	barcodeData = generateBarcode(swabID);
-
-	doc.setFont("helvetica");
-	doc.setFontSize(18);
-	doc.setFontType("bold");
-	// doc.text(23, 12, 'Swab #'+swabID);
-	doc.text(25, 12, swabID);
-
-	doc.setFontSize(18);
-	doc.setFontType("bold");
-	doc.text(3, 30, 'Test:');
-	doc.setFontSize(16);
-	doc.setFontType("normal");
-	doc.text(25, 30, testCode);
-
-	doc.setFontSize(18);
-	doc.setFontType("bold");
-	doc.text(3, 40, 'Dog:');
-	doc.setFontSize(16);
-	doc.setFontType("normal");
-	doc.text(25, 40, dogName.toUpperCase());
-
-	doc.setFontSize(18);
-	doc.setFontType("bold");
-	doc.text(3, 50, 'Contact:');
-	doc.setFontSize(16);
-	doc.setFontType("normal");
-	doc.text(35, 50, ownerName.toUpperCase());
-	doc.text(10, 58, contact);
-
-	doc.addImage(aht, 'PNG', 1, 1, 20, 18);
-	// doc.addImage(DATA, 'PNG', x, y, w, h);
-	// doc.addImage(barcodeData, 'PNG', 60, 1, 40, 40);
-	doc.addImage(barcodeData, 'PNG', 60, 1, 64, 32);
-}*/
 
 function createAllLabels(swabs, testList, dogName, petName, TattooOrChip, ownerName, contact) {
 	pdfMake.fonts = {
@@ -221,7 +162,7 @@ function pdfLabel(swabID, testName, dogName, petName, TattooOrChip, ownerName, c
 			}, {
 				image : barcodeData,
 				width : 150,
-				margin : [0,10,0,0]
+				margin : [20,5,0,0]
 			} ] ]
 		},
 		layout : 'noBorders'
