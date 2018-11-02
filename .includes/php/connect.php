@@ -12,7 +12,7 @@ $db_name	= 'DB_NAME';
 /* End config */
 
 $link = mysqli_connect($db_host,$db_user,$db_pass,$db_name) or die('Unable to establish a DB connection');
-mysqli_query("SET names UTF8");
+mysqli_query($link, "SET names UTF8");
 
 function showerror($sql = ''){
 	if ($sql != ''){
