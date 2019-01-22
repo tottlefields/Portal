@@ -1,73 +1,102 @@
+<?php
+
+define('INCLUDE_CHECK',true);
+require_once '.includes/php/connect.php';
+require_once '.includes/php/functions.php';
+	
+if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == "Record Details"){
+	$order = $_REQUEST;
+	$label_data = array();
+	
+	$research = ($order['research'] == 'on') ? 1 : 0;
+	$vet_verified = ($order['vet-select'] > 0) ? 1 : 0;
+	$mainContact = ($order['owner-email'] != '') ? $order['owner-email'] : $order['owner-phone'];
+	
+	$update = 'UPDATE swab_data SET O_FullName="'.$order['owner-name'].'", O_Email="'.$order['owner-email'].'", O_Tel="'.$order['owner-phone'].'", O_Address="'.$order['owner-address'].'", O_Town="'.$order['owner-town'].'", O_County="'.$order['owner-county'].'", O_Country="'.$order['owner-country'].'", O_Postcode="'.$order['owner-postcode'].'", AgreeResearch='.$research.', ReportFormat="'.$order['format'].'", VetVerified='.$vet_verified.', OrderDate=date(NOW()) WHERE ID='.$order['swab-id'];
+	mysqli_query($link, $update);
+	
+	// DOG 1
+	$update = 'UPDATE swab_data SET Breed="'.$order['breed_1'].'", RegisteredName="'.$order['registered-name_1'].'", PetName="'.$order['pet-name_1'].'", RegistrationNo="'.$order['registration-number_1'].'", Microchip="'.$order['microchip_1'].'", BirthDate="'.$order['birth-date_1'].'", Breed="'.$order['breed_1'].'", Colour="'.$order['colour_1'].'", Sex="'.$order['sex_1'].'", TestCode="'.$order['breed_tests_1'][0].'" WHERE ID='.$order['swab-id'];
+	mysqli_query($link, $update);
+	
+	array_push($label_data, array(
+		'swabID' => $swabPrefix.$order['swab-id'],
+		'testName' => $order['breed_tests_1'][0],
+		'dogName' => $order['registered-name_1'],
+		'petName' => $order['pet-name_1'],
+		'TattooOrChip' => $order['microchip_1'],
+		'ownerName' => $order['owner-name'],
+		'contact' => $mainContact
+	));
+	
+	if (count($order['breed_tests_1']) > 1){
+		for ($j=1; $j<count($order['breed_tests_1']); $j++){
+			$swab_id = create_order_row();
+			
+			$update = 'UPDATE swab_data SET O_FullName="'.$order['owner-name'].'", O_Email="'.$order['owner-email'].'", O_Tel="'.$order['owner-phone'].'", O_Address="'.$order['owner-address'].'", O_Town="'.$order['owner-town'].'", O_County="'.$order['owner-county'].'", O_Country="'.$order['owner-country'].'", O_Postcode="'.$order['owner-postcode'].'", AgreeResearch='.$research.', ReportFormat="'.$order['format'].'", VetVerified='.$vet_verified.', OrderDate=date(NOW()) WHERE ID='.$swab_id;
+			mysqli_query($link, $update);
+			
+			$update = 'UPDATE swab_data SET Breed="'.$order['breed_1'].'", RegisteredName="'.$order['registered-name_1'].'", PetName="'.$order['pet-name_1'].'", RegistrationNo="'.$order['registration-number_1'].'", Microchip="'.$order['microchip_1'].'", BirthDate="'.$order['birth-date_1'].'", Breed="'.$order['breed_1'].'", Colour="'.$order['colour_1'].'", Sex="'.$order['sex_1'].'", TestCode="'.$order['breed_tests_1'][$j].'" WHERE ID='.$swab_id;
+			mysqli_query($link, $update);
+	
+			array_push($label_data, array(
+				'swabID' => $swabPrefix.$swab_id,
+				'testName' => $order['breed_tests_1'][$j],
+				'dogName' => $order['registered-name_1'],
+				'petName' => $order['pet-name_1'],
+				'TattooOrChip' => $order['microchip_1'],
+				'ownerName' => $order['owner-name'],
+				'contact' => $mainContact
+			));
+		}
+	}
+	
+	// Further dogs!
+	if ($order['noDogs'] > 1){
+		for ($i=2; $i<=$order['noDogs']; $i++){
+			for ($j=0; $j<count($order['breed_tests_'.$i]); $j++){
+				$swab_id = create_order_row();
+				
+				$update = 'UPDATE swab_data SET O_FullName="'.$order['owner-name'].'", O_Email="'.$order['owner-email'].'", O_Tel="'.$order['owner-phone'].'", O_Address="'.$order['owner-address'].'", O_Town="'.$order['owner-town'].'", O_County="'.$order['owner-county'].'", O_Country="'.$order['owner-country'].'", O_Postcode="'.$order['owner-postcode'].'", AgreeResearch='.$research.', ReportFormat="'.$order['format'].'", VetVerified='.$vet_verified.', OrderDate=date(NOW()) WHERE ID='.$swab_id;
+				mysqli_query($link, $update);
+				
+				$update = 'UPDATE swab_data SET Breed="'.$order['breed_'.$i].'", RegisteredName="'.$order['registered-name_'.$i].'", PetName="'.$order['pet-name_'.$i].'", RegistrationNo="'.$order['registration-number_'.$i].'", Microchip="'.$order['microchip_'.$i].'", BirthDate="'.$order['birth-date_'.$i].'", Breed="'.$order['breed_'.$i].'", Colour="'.$order['colour_'.$i].'", Sex="'.$order['sex_'.$i].'", TestCode="'.$order['breed_tests_'.$i][$j].'" WHERE ID='.$swab_id;
+				mysqli_query($link, $update);
+		
+				array_push($label_data, array(
+					'swabID' => $swabPrefix.$swab_id,
+					'testName' => $order['breed_tests_'.$i][$j],
+					'dogName' => $order['registered-name_'.$i],
+					'petName' => $order['pet-name_'.$i],
+					'TattooOrChip' => $order['microchip_'.$i],
+					'ownerName' => $order['owner-name'],
+					'contact' => $mainContact
+				));
+			}
+		}
+	}
+}
+
+
+$swab_data = mysqli_fetch_all(mysqli_query($link, "SELECT * FROM swab_data ORDER BY ID"));	
+$swab_id = create_order_row();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <title>AHT DNA Testing - AHT swab testing portal</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<!-- <link rel="icon" type="image/png" sizes="96x96" href=".includes/images/favicon-96x96.png"> -->
-<link rel="icon" type="image/png" sizes="96x96"
-	href=".includes/images/favicon.ico">
+<link rel="icon" type="image/png" sizes="96x96" href=".includes/images/favicon.ico">
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" type="text/css"
-	href=".includes/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css"
-	href=".includes/css/bootstrap-datepicker.min.css">
-<link rel="stylesheet" type="text/css"
-	href=".includes/css/datatables.min.css" />
-<link rel="stylesheet" type="text/css"
-	href=".includes/css/bootstrap-toggle.min.css">
-<link rel="stylesheet" type="text/css"
-	href=".includes/css/bootstrap-dialog.min.css">
-<link rel="stylesheet" type="text/css"
-	href=".includes/css/font-awesome.min.css">
-<style>
-.admin { display: none !important; }
-.error, .required {
-	border-color: #a94442;
-}
+<link rel="stylesheet" type="text/css" href=".includes/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href=".includes/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" type="text/css" href=".includes/css/datatables.min.css" />
+<link rel="stylesheet" type="text/css" href=".includes/css/bootstrap-toggle.min.css">
+<link rel="stylesheet" type="text/css" href=".includes/css/bootstrap-dialog.min.css">
+<link rel="stylesheet" type="text/css" href=".includes/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href=".includes/css/styles.css">
 
-.valid {
-	border-color: #3c763d;
-}
-
-.nav-tabs, .nav-pills {
-	margin-bottom: 10px;
-}
-
-.nav-tabs>li, .nav-pills>li {
-	float: none;
-	display: inline-block;
-	*display: inline; /* ie7 fix */
-	zoom: 1; /* hasLayout ie7 trigger */
-}
-
-.nav-tabs, .nav-pills {
-	text-align: center;
-}
-
-@media only screen and (max-width: 760px) {
-	img.top-logo {
-		width: 77%;
-	}
-	div.swab_details_filter {
-		display: none;
-	}
-	table.swab_details {
-		display: none;
-	}
-}
-
-@media only screen and (max-width: 550px) {
-	img.top-logo {
-		width: 82%;
-	}
-	div.swab_details_filter {
-		display: none;
-	}
-	table.swab_details {
-		display: none;
-	}
-}
-</style>
 </head>
 <body>
 	<div class="container-fluid">
@@ -83,31 +112,27 @@
 			</div>
 			<!-- <h1 class="hidden-sm hidden-xs" style="line-height: 105px;margin: 0 463px 0 0;">AHT Swab Collection Portal</h1> -->
 			<h1 class="hidden-sm hidden-xs"
-				style="line-height: 105px; margin: 0 100px 0 0;">AHT Swab
-				Collection Portal</h1>
+				style="line-height: 105px; margin: 0 100px 0 0;">AHT Swab Collection Portal</h1>
 		</div>
 		<div class="row visible-sm visible-xs" style="text-align: center">
 			<div class="col-sm-12">
 				<h1>AHT Swab Collection Portal</h1>
 			</div>
 		</div>
-
-		<canvas id="canvasBarcode"
-			style="position: absolute; left: 5px; top: 5px; z-index: -999"
-			width="250px" height="80px"></canvas>
-		<div
-			style="position: absolute; height: 90px; width: 260px; left: 0px; top: 0px; z-index: -10; background-color: #FFFFFF">&nbsp;</div>
+		
+		<canvas id="canvasBarcode" style="position: absolute; left: 5px; top: 5px; z-index: -999" width="250px" height="80px"></canvas>
+		<div style="position: absolute; height: 90px; width: 260px; left: 0px; top: 0px; z-index: -10; background-color: #FFFFFF">&nbsp;</div>
 
 		<div class="row">
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#tab-form" data-toggle="tab" tabindex="-1">Input Form</a></li>
-				<li><a href="#tab-table" data-toggle="tab" tabindex="-1">Results Table</a></li>
+				<li><a href="#tab-table" data-toggle="tab" tabindex="-1">Orders</a></li>
 			</ul>
 		</div>
 
 		<div class="tab-content ">
 			<div class="tab-pane active" id="tab-form">
-				<form class="form-horizontal" id="swab_details_form" method="post" action="test.html">
+				<form class="form-horizontal" id="swab_details_form" method="post">
 					<div class="row">
 						<div class="col-sm-12 col-lg-5">
 							<div class="panel panel-primary">
@@ -118,7 +143,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">Next Swab</label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control" value="" name="swab-id" id="swab-id" tabindex="-1" readonly />
+											<input type="text" class="form-control" value="<?php echo $swabPrefix.$swab_id; ?>" name="portal-id" id="portal-id" tabindex="-1" readonly />
 										</div>
 										<label class="col-sm-2 control-label">Print Label?</label>
 										<div class="col-sm-1">
@@ -233,6 +258,7 @@
 							</div>
 						</div>
 					</div>
+					<input type="hidden" value="<?php echo $swab_id; ?>" name="swab-id" id="swab-id" />
 					<input type="submit" value="Record Details" id="form_submission_but" name="submit" class="btn btn-primary pull-right" disabled="disabled" />
 				</form>
 			</div>
@@ -240,9 +266,7 @@
 			<div class="tab-pane" id="tab-table">
 				<div class="row">
 					<div class="col-sm-12" style="font-size: 0.8em">
-						<table id="swab_details"
-							class="table table-bordered table-hover display"
-							style="width: 100%">
+						<table id="swab_details" class="table table-bordered table-hover display" style="width: 100%">
 							<thead>
 								<tr>
 									<th>Returned?</th>
@@ -275,8 +299,53 @@
 									<th>Vet Postcode</th>
 									<th>Research?</th>
 									<th>Label</th>
+									<th>SwabID</th>
 								</tr>
 							</thead>
+<?php
+if (count($swab_data) > 0){
+	echo '<tbody>';
+	foreach ($swab_data as $row){
+		if ($row[4] == ''){ continue; }
+		$vet = ($row[5] == 0) ? 'No' : 'Yes';
+		$research = ($row[30] == 0) ? 'No' : 'Yes';
+		echo '
+								<tr>
+									<td>'.$row[1].'</td>
+									<td>'.$row[3].'</td>
+									<td>'.$row[4].'</td>
+									<td>'.$vet.'</td>
+									<td>'.$row[6].'</td>
+									<td>'.$row[7].'</td>
+									<td>'.$row[8].'</td>
+									<td>'.$row[9].'</td>
+									<td>'.$row[10].'</td>
+									<td>'.$row[11].'</td>
+									<td>'.$row[12].'</td>
+									<td>'.$row[13].'</td>
+									<td>'.$row[14].'</td>
+									<td>'.$row[15].'</td>
+									<td>'.$row[16].'</td>
+									<td>'.$row[17].'</td>
+									<td>'.$row[18].'</td>
+									<td>'.$row[19].'</td>
+									<td>'.$row[20].'</td>
+									<td>'.$row[21].'</td>
+									<td>'.$row[22].'</td>
+									<td>'.$row[23].'</td>
+									<td>'.$row[24].'</td>
+									<td>'.$row[25].'</td>
+									<td>'.$row[26].'</td>
+									<td>'.$row[27].'</td>
+									<td>'.$row[28].'</td>
+									<td>'.$row[29].'</td>
+									<td>'.$research.'</td>
+									<td></td>
+									<td>'.$row[0].'</td>
+								</tr>';
+	}
+	echo '</tbody>';	
+}?>
 						</table>
 					</div>
 				</div>
@@ -361,6 +430,17 @@
 	<script type="text/javascript" src=".includes/js/jquery-barcode.min.js"></script>
 	<script type="text/javascript" src=".includes/js/data.js"></script>
 	<script type="text/javascript" src=".includes/js/functions.js"></script>
+<?php
+if (isset($label_data) && count($label_data) > 0){ ?>
+	<script type="text/javascript">
+		$(document).ready(function() {
+				createAllLabels(<?php echo json_encode($label_data); ?>);
+		});
+		var labelData = <?php echo json_encode($label_data); ?>;
+	</script>
+<?php $label_data = array();
+} ?>
+	
 	<script>
 		$(document).ready(function() {
 			$.each(countryList, function(key, value) {
@@ -416,12 +496,12 @@
 							var html = '';
 							var testAll = breedTests['all'];
 							for ( var key in testAll) {
-								html += '<div class="checkbox input-sm"><label><input type="checkbox" class="test_checkbox" name="breed_tests_'+a[1]+'" value="'+key+'">'+ testAll[key]+ '</label></div>';
+								html += '<div class="checkbox input-sm"><label><input type="checkbox" class="test_checkbox" name="breed_tests_'+a[1]+'[]" value="'+key+'">'+ testAll[key]+ '</label></div>';
 							}
 							var testList = breedTests[selectedBreed];
 							if (testList && Object.keys(testList).length > 0) {
 								for ( var key in testList) {
-									html += '<div class="checkbox input-sm"><label><input type="checkbox" class="test_checkbox" name="breed_tests_'+a[1]+'" value="'+key+'">'+ testList[key]+ '</label></div>';
+									html += '<div class="checkbox input-sm"><label><input type="checkbox" class="test_checkbox" name="breed_tests_'+a[1]+'[]" value="'+key+'">'+ testList[key]+ '</label></div>';
 								}
 							}
 							$('#available_tests_'+a[1]).html(html);
@@ -434,11 +514,6 @@
 					});
 				}
 			});
-
-			
-			var dataSet;
-			try { dataSet = JSON.parse(localStorage.getItem('dataSet')) || []; }
-			catch (err) { dataSet = []; }
 			
 			var vetDetails;
 			try {vetDetails = JSON.parse(localStorage.getItem('vetDetails'))|| []; }
@@ -447,11 +522,6 @@
 				var vet = vetDetails[i];
 				$('#vet-select').append($('<option>', { value : vet.id, text : vet.name }));
 			}
-			
-			if (localStorage.getItem("nextSwab") === null) { localStorage.setItem('nextSwab', startingSwab); }
-			var swabID = localStorage.getItem('nextSwab');
-			$('#swab-id').val(swabPrefix + swabID);
-			barcodeData = generateBarcode(swabPrefix + swabID);
 			
 			$("#swab_details_form").validate({
 				errorPlacement : function(error, element) {
@@ -502,24 +572,23 @@
 			$('#but-add-vet').click(function() { addVetDetails(); });
 			
 			var table = $('#swab_details').DataTable({
-				data: [],
 				order: [ [ 1, "desc" ] ],
 				columns: [ {
 						title: "Returned?",
 						render: function(data, type, row) {
-						if (type === 'display') {
-							var cell_contents = '';
-							if (data == 1) {
-								cell_contents = '<i id="'+row[1]+'" class="fa fa-check-square-o fa-lg text-success" aria-hidden="true"></i>';
-							} else {
-								cell_contents = '<i id="'+row[1]+'" style="cursor:pointer" class="swab_ret fa fa-square-o fa-lg text-danger" aria-hidden="true"></i>';
+							if (type === 'display') {
+								var cell_contents = '';
+								if (data == 1) {
+									cell_contents = '<i id="'+row[1]+'" class="fa fa-check-square-o fa-lg text-success" aria-hidden="true"></i>';
+								} else {
+									cell_contents = '<i id="'+row[1]+'" style="cursor:pointer" class="swab_ret fa fa-square-o fa-lg text-danger" aria-hidden="true"></i>';
+								}
+								cell_contents += '<span id="span_'+row[1]+'"  style="display:none;">'+ data+ '</span>';
+								return cell_contents;
 							}
-							cell_contents += '<span id="span_'+row[1]+'"  style="display:none;">'+ data+ '</span>';
-							return cell_contents;
-						}
-						return data;
-					},
-					className: "text-center" 
+							return data;
+						},
+						className: "text-center" 
 				},
 				{ title: "Swab#" },
 				{ title: "Test" },
@@ -560,6 +629,7 @@
 					},
 					className: "text-center" 
 				},
+				{ title: "SwabID" },
 			],
 			columnDefs: [{
 				targets: 0,
@@ -570,11 +640,11 @@
 				visible: false,
 				searchable: true
 			}, {
-				targets: [ 4, 9, 11, 12, 14, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28 ],
+				targets: [ 4, 9, 11, 12, 14, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 30 ],
 				visible: false,
 				searchable: false
 			}, {
-				targets: [ 28 ],
+				targets: [ 29 ],
 				visible: true,
 				searchable: false
 			}],
@@ -589,10 +659,6 @@
 				extension: '.tsv'
 			} ], 
 		});
-			
-		for (var i = 0; i < dataSet.length; i++) {
-			table.row.add(dataSet[i]).draw();
-		}
 		
 		$("#swab_details").on('click','.swab_ret',function() {
 			var id = $(this).attr('id');
@@ -605,172 +671,20 @@
 				var data = table.row($(this).parents('tr')).data();
 				data[0] = 1;
 				table.row($(this).parents('tr')).data(data).draw();
-				dataSetLocal = JSON.parse(localStorage.getItem('dataSet'));
-				for (var i = 0; i < dataSetLocal.length; i++) {
-					if (dataSetLocal[i][1] === id) { dataSetLocal[i][0] = 1; }
-				}
-				localStorage.setItem('dataSet', JSON.stringify(dataSetLocal));
+				$.ajax({
+						type: "POST",
+						url: "/.includes/php/ajax.php",
+						data: { 'returned' : 1, 'swabID' : data[30] },
+						dataType: "json",
+				});
 			}
-		});
-		
-		$("#but_clearall").click(function(event) {
-			bootbox.confirm({
-				message: "Are you sure you wish to delete ALL saved data? This action cannot be undone.",
-				buttons: {
-					confirm: {
-						label: 'Yes',
-						className: 'btn-success'
-					},
-					cancel: {
-						label: 'No',
-						className: 'btn-danger'
-					}
-				},
-				callback: function(result) {
-					if (result) {
-						localStorage.clear();
-						location.reload();
-					}
-				}
-			});
 		});
 
 		$('#swab_details_form').submit(function(event) {
-			event.preventDefault();
+			//event.preventDefault();
 			if ($('input:checkbox[class="test_checkbox"]:checked').length === 0) {
 				alert("You need to select one or more tests for your dog.");
 				return false;
-			}
-			
-			var vetVerified = 'No';
-			if ($('input:checkbox[name="vet-verified"]:checked').val() === 'on') {
-				vetDetails = JSON.parse(localStorage.getItem('vetDetails'));
-				for (var i = 0; i < vetDetails.length; i++) {
-					if (Number(vetDetails[i].id) === Number($('#vet-select option:selected').val())) {
-						vet = vetDetails[i];
-						vetVerified = vet.name;
-						$('#vet-name').val(vet.name);
-						$('#vet-phone').val(vet.phone);
-						$('#vet-fax').val(vet.fax);
-						$('#vet-email').val(vet.email);
-						$('#vet-address').val(vet.address);
-						$('#vet-city').val(vet.city);
-						$('#vet-postcode').val(vet.postcode);
-						break;
-					}
-				}
-			}
-			
-			var research = 'Yes';
-			if ($('input:checkbox[name="research"]:checked').val() === 'off') { research = 'No'; }
-			
-			var mainContact;
-			if ($('#owner-email').val() !== "") {
-				mainContact = $('#owner-email').val();
-			} else if ($('#owner-phone').val() !== "") {
-				mainContact = $('#owner-phone').val();
-			}
-			
-			var labelData = [];
-			
-			for (var d=1; d <= $("#noDogs").val(); d++){
-				
-				var testList = [];
-				var testNameList = [];
-				var swabs = [];
-				
-				$('input:checkbox[name="breed_tests_'+d+'"]:checked').each(function() {
-					testList.push($(this).val());
-					testNameList.push($(this).closest("label").text());
-					swabs.push(swabPrefix + swabID);
-					swabID = Number(swabID) + 1;
-				});
-				
-				for (var i = 0; i < testList.length; i++) {
-					var data = [
-					            0,
-								swabs[i],
-								testList[i],
-								vetVerified,
-								$('input[name=format]:checked').val(),
-								$('#registered-name_'+d).val(),
-								$('#pet-name_'+d).val(),
-								$('#registration-number_'+d).val(),
-								$('#microchip_'+d).val(),
-								$('#birth-date_'+d).val(),
-								$('#breed-select_'+d+' option:selected').text(),
-								$('#colour_'+d).val(),
-								$('#sex_'+d+' option:selected').text(),
-								$('#owner-name').val(),
-								$('#owner-email').val(),
-								$('#owner-phone').val(),
-								$('#owner-address').val(),
-								$('#owner-town').val(),
-								$('#owner-county').val(),
-								$('#owner-country').val(),
-								$('#owner-postcode').val(),
-								$('#vet-name').val(),
-								$('#vet-email').val(),
-								$('#vet-phone').val(),
-								$('#vet-fax').val(),
-								$('#vet-address').val(),
-								$('#vet-city').val(),
-								$('#vet-postcode').val(),
-								research,
-								1
-					];
-					table.row.add(data).draw();
-					dataSet.push(data);
-					labelData.push({
-						swabID: swabs[i], 
-						testName: testList[i], 
-						dogName: $('#registered-name_'+d).val(), 
-		                petName: $('#pet-name_'+d).val(), 
-		                TattooOrChip: $('#microchip_'+d).val(),
-		                ownerName: $('#owner-name').val(),
-		                contact: mainContact
-					});
-				}
-			}
-			
-			localStorage.setItem('dataSet', JSON.stringify(dataSet));
-			localStorage.setItem('nextSwab', (Number(swabID)));
-			
-			if ($('input:checkbox[name="print-label"]:checked').val() === 'on') {
-				createAllLabels(labelData);
-			}
-			
-			$('.valid').removeClass('valid');
-
-			$('#swab-id').val(swabPrefix + localStorage.getItem('nextSwab'));
-			$('#owner-name').val("");
-			$('#owner-phone').val("");
-			$('#owner-fax').val("");
-			$('#owner-email').val("");
-			$('#owner-address').val("");
-			$('#owner-town').val("");
-			$('#owner-county').val("");
-			$('#owner-country').val("");
-			$('#owner-postcode').val("");
-			$('#vet-name').val("");
-			$('#vet-phone').val("");
-			$('#vet-fax').val("");
-			$('#vet-email').val("");
-			$('#vet-address').val("");
-			$('#vet-city').val("");
-			$('#vet-postcode').val("");
-			$("#noDogs").val(0);
-			$("#dogsTable > thead").html("");
-			$("#dogsTable > tbody").html("");
-			$("#dogsTable").hide();
-			
-			if (labelData.length > 1) {
-				var msg = '';
-				for (var i = 0; i < labelData.length; i++) {
-					var label = labelData[i];
-					msg += '<span style="padding-left:25px;"><strong>' + label.swabID + "</strong> - " + label.petName + " - " + label.testName + "</span><br />";
-				}
-				bootbox.alert({message : "<p>You have requested multiple swab kits.</p><p>Please use the following swab IDs and stickers:-<br />" + msg + "</p>"});
 			}
 		});
 	});
