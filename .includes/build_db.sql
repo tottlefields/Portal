@@ -1,0 +1,38 @@
+create database portal_db;
+use portal_db;
+
+CREATE TABLE swab_data (
+	  ID int(4) NOT NULL AUTO_INCREMENT,
+	  returned int(1) NOT NULL DEFAULT '0',
+	  OrderDate date DEFAULT NULL,
+	  PortalID varchar(10) NOT NULL,
+	  TestCode varchar(20) NOT NULL,
+	  VetVerified varchar(100) DEFAULT NULL,
+	  ReportFormat enum('EMAIL','POST','FAX') DEFAULT 'EMAIL',
+	  RegisteredName varchar(255) DEFAULT NULL,
+	  PetName varchar(255) DEFAULT NULL,
+	  RegistrationNo varchar(50) DEFAULT NULL,
+	  Microchip varchar(50) DEFAULT NULL,
+	  BirthDate varchar(20) DEFAULT NULL,
+	  Breed varchar(255) DEFAULT NULL,
+	  Colour varchar(100) DEFAULT NULL,
+	  Sex enum('m','f','') DEFAULT '',
+	  O_FullName varchar(100) DEFAULT NULL,
+	  O_Email varchar(255) DEFAULT NULL,
+	  O_Tel varchar(100) DEFAULT NULL,
+	  O_Address varchar(100) DEFAULT NULL,
+	  O_Town varchar(100) DEFAULT NULL,
+	  O_County varchar(100) DEFAULT NULL,
+	  O_Country varchar(100) DEFAULT NULL,
+	  O_Postcode varchar(20) DEFAULT NULL,
+	  V_FullName varchar(100) DEFAULT NULL,
+	  V_Email varchar(255) DEFAULT NULL,
+	  V_Tel varchar(100) DEFAULT NULL,
+	  V_Address varchar(100) DEFAULT NULL,
+	  V_Town varchar(100) DEFAULT NULL,
+	  V_County varchar(100) DEFAULT NULL,
+	  V_Postcode varchar(20) DEFAULT NULL,
+	  AgreeResearch int(1) NOT NULL DEFAULT '0',
+	  PRIMARY KEY (ID),
+	  UNIQUE KEY portal_idx (PortalID)
+);

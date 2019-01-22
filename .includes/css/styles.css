@@ -1,0 +1,25 @@
+/* CSS Styles */
+
+.admin { display: none !important; }
+.error, .required { border-color: #a94442; }
+.valid { border-color: #3c763d; }
+.nav-tabs, .nav-pills { margin-bottom: 10px; }
+.nav-tabs>li, .nav-pills>li {
+	float: none;
+	display: inline-block;
+	*display: inline; /* ie7 fix */
+	zoom: 1; /* hasLayout ie7 trigger */
+}
+.nav-tabs, .nav-pills { text-align: center; }
+
+@media only screen and (max-width: 760px) {
+	img.top-logo { width: 77%; }
+	div.swab_details_filter { display: none; }
+	table.swab_details { display: none; }
+}
+
+@media only screen and (max-width: 550px) {
+	img.top-logo { width: 82%; }
+	div.swab_details_filter { display: none; }
+	table.swab_details { display: none; }
+}
