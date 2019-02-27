@@ -77,8 +77,6 @@ if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == "Record Details"){
 	}
 }
 
-
-$swab_data = mysqli_fetch_all(mysqli_query($link, "SELECT * FROM swab_data ORDER BY ID"));	
 $swab_id = create_order_row();
 
 ?>
@@ -125,8 +123,8 @@ $swab_id = create_order_row();
 
 		<div class="row">
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="#tab-form" data-toggle="tab" tabindex="-1">Input Form</a></li>
-				<li><a href="#tab-table" data-toggle="tab" tabindex="-1">Orders</a></li>
+				<li class="active"><a href="#tab-form" tabindex="-1">Input Form</a></li>
+				<li><a href="orders.php" tabindex="-1">Orders</a></li>
 			</ul>
 		</div>
 
@@ -261,94 +259,6 @@ $swab_id = create_order_row();
 					<input type="hidden" value="<?php echo $swab_id; ?>" name="swab-id" id="swab-id" />
 					<input type="submit" value="Record Details" id="form_submission_but" name="submit" class="btn btn-primary pull-right" disabled="disabled" />
 				</form>
-			</div>
-
-			<div class="tab-pane" id="tab-table">
-				<div class="row">
-					<div class="col-sm-12" style="font-size: 0.8em">
-						<table id="swab_details" class="table table-bordered table-hover display" style="width: 100%">
-							<thead>
-								<tr>
-									<th>Returned?</th>
-									<th>Swab#</th>
-									<th>Test</th>
-									<th>Vet Verified?</th>
-									<th>Report?</th>
-									<th>Registered Name</th>
-									<th>Pet Name</th>
-									<th>Reg No.</th>
-									<th>Microchip</th>
-									<th>DOB</th>
-									<th>Breed</th>
-									<th>Colour</th>
-									<th>Sex</th>
-									<th>Owner</th>
-									<th>Email</th>
-									<th>Phone</th>
-									<th>Address</th>
-									<th>Town</th>
-									<th>County</th>
-									<th>Country</th>
-									<th>Postcode</th>
-									<th>Vet</th>
-									<th>Vet Email</th>
-									<th>Vet Phone</th>
-									<th>Vet Fax</th>
-									<th>Vet Address</th>
-									<th>Vet Town</th>
-									<th>Vet Postcode</th>
-									<th>Research?</th>
-									<th>Label</th>
-									<th>SwabID</th>
-								</tr>
-							</thead>
-<?php
-if (count($swab_data) > 0){
-	echo '<tbody>';
-	foreach ($swab_data as $row){
-		if ($row[4] == ''){ continue; }
-		$vet = ($row[5] == 0) ? 'No' : 'Yes';
-		$research = ($row[30] == 0) ? 'No' : 'Yes';
-		echo '
-								<tr>
-									<td>'.$row[1].'</td>
-									<td>'.$row[3].'</td>
-									<td>'.$row[4].'</td>
-									<td>'.$vet.'</td>
-									<td>'.$row[6].'</td>
-									<td>'.$row[7].'</td>
-									<td>'.$row[8].'</td>
-									<td>'.$row[9].'</td>
-									<td>'.$row[10].'</td>
-									<td>'.$row[11].'</td>
-									<td>'.$row[12].'</td>
-									<td>'.$row[13].'</td>
-									<td>'.$row[14].'</td>
-									<td>'.$row[15].'</td>
-									<td>'.$row[16].'</td>
-									<td>'.$row[17].'</td>
-									<td>'.$row[18].'</td>
-									<td>'.$row[19].'</td>
-									<td>'.$row[20].'</td>
-									<td>'.$row[21].'</td>
-									<td>'.$row[22].'</td>
-									<td>'.$row[23].'</td>
-									<td>'.$row[24].'</td>
-									<td>'.$row[25].'</td>
-									<td>'.$row[26].'</td>
-									<td>'.$row[27].'</td>
-									<td>'.$row[28].'</td>
-									<td>'.$row[29].'</td>
-									<td>'.$research.'</td>
-									<td></td>
-									<td>'.$row[0].'</td>
-								</tr>';
-	}
-	echo '</tbody>';	
-}?>
-						</table>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
