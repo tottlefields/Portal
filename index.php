@@ -124,7 +124,7 @@ $swab_id = create_order_row();
 		<div class="row">
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#tab-form" tabindex="-1">Input Form</a></li>
-				<li><a href="orders.php" tabindex="-1">Orders</a></li>
+				<li<?php if ($_SERVER['HTTP_HOST'] != 'localhost'){ echo ' style="display:none;"'; }?>><a href="orders.php" tabindex="-1">Orders</a></li>
 			</ul>
 		</div>
 
@@ -338,8 +338,8 @@ $swab_id = create_order_row();
 	<script type="text/javascript" src=".includes/js/pdfmake.min.js"></script>
 	<script type="text/javascript" src=".includes/js/vfs_fonts.js"></script>
 	<script type="text/javascript" src=".includes/js/jquery-barcode.min.js"></script>
-	<script type="text/javascript" src=".includes/js/data.js"></script>
-	<script type="text/javascript" src=".includes/js/functions.js"></script>
+	<script type="text/javascript" src=".includes/js/data.js?v=1.1"></script>
+	<script type="text/javascript" src=".includes/js/functions.js?v=1.0"></script>
 <?php
 if (isset($label_data) && count($label_data) > 0){ ?>
 	<script type="text/javascript">
