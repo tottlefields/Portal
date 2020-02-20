@@ -101,7 +101,7 @@ $swab_id = create_order_row();
 		<div class="row" style="text-align: center">
 			<!-- <img src=".includes/images/aht-logo.png" style="float:left" class="hidden-md hidden-sm hidden-xs" />
 			<img src=".includes/images/aht-logo-sml.png" style="float:left" class="visible-md visible-sm visible-xs" /> -->
-			<img src=".includes/images/aht-logo-sml.png" style="float: left" />
+			<img src=".includes/images/aht-logo-sml.png" style="float: left; padding:5px;" />
 			<div class="btn-group-vertical pull-right" role="group" style="margin-top: 10px; margin-right: 15px">
 				<a href="Instructions.pdf" target="_blank" class="btn btn-default" tabindex="-1"><i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>&nbsp;<span class="hidden-sm hidden-xs">View </span>Docs</a>
 				<button type="button" class="btn btn-default admin" tabindex="-1" id="but_clearall">
@@ -130,7 +130,7 @@ $swab_id = create_order_row();
 
 		<div class="tab-content ">
 			<div class="tab-pane active" id="tab-form">
-				<form class="form-horizontal" id="swab_details_form" method="post">
+				<form class="form-horizontal" id="swab_details_form" method="post" autocomplete="off">
 					<div class="row">
 						<div class="col-sm-12 col-lg-5">
 							<div class="panel panel-primary">

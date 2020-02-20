@@ -1,5 +1,11 @@
 /* CSS Styles */
 
+@import url(//fonts.googleapis.com/css?family=Poppins:400,400italic,700,700italic);
+
+body{
+	font-family: 'Poppins', sans-serif;
+}
+
 .admin { display: none !important; }
 .error, .required { border-color: #a94442; }
 .valid { border-color: #3c763d; }
@@ -22,4 +28,34 @@
 	img.top-logo { width: 82%; }
 	div.swab_details_filter { display: none; }
 	table.swab_details { display: none; }
+}
+
+a { color: #7b33b5; }
+a:focus, a:hover { color: #512178; }
+
+.panel-primary {
+    border-color: #7b33b5;
+}
+
+.panel-primary>.panel-heading {
+    color: #fff;
+    background-color: #7b33b5;
+    border-color: #7b33b5;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #7b33b5;
+    border-color: #6c2ba1;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #512178;
+    border-color: #35154f;
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    background-color: #7b33b5;
+    border-color: #7b33b5;
 }
